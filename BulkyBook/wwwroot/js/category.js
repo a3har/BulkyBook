@@ -5,7 +5,7 @@ $('document').ready(function () {
 })
 
 function loadDataTable() {
-    datatable = $('#tblData').DataTable({
+    dataTable = $('#tblData').DataTable({
                 "ajax": "/Admin/Category/GetAll",
                 "columns": [{ "data": "name", "width": "60%" },
                     {
@@ -16,7 +16,7 @@ function loadDataTable() {
                                         <a href="/Admin/Category/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                                            <i class="fas fa-edit"></i>
                                         </a>
-                                        <a onclick=Delete("Admin/Category/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                                        <a onclick=Delete("Category/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </div>
@@ -34,7 +34,7 @@ function Delete(url) {
         text: "This is a permanent action and you will not be able to undo it",
         buttons: true,
         dangerMode: true,
-        icons:"warning"
+        icon:"warning"
     }).then((willDelete) => {
         if (willDelete) {
             $.ajax({
@@ -49,7 +49,7 @@ function Delete(url) {
                         toastr.error(data.message);
                     }
                 }
-            })
+            });
         }
     })
 }

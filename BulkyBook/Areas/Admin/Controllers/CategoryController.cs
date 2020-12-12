@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BulkyBook.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -16,7 +17,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        [Area("Admin")]
+        
         public IActionResult Index()
         {
             return View();
