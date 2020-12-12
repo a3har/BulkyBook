@@ -22,7 +22,6 @@ namespace BulkyBook.DataAccess.Repository
             if (ObjFromDb != null)
             {
                 ObjFromDb.Name = category.Name;
-                _db.SaveChanges();
             }
         }
     }
