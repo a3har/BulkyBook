@@ -72,6 +72,7 @@ namespace BulkyBook.Areas.Admin.Controllers
 
                     if(productVM.Product.ImageUrl != null)
                     {
+
                         var imagePath = Path.Combine(webRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
                         if (System.IO.File.Exists(imagePath))
                         {
@@ -84,7 +85,7 @@ namespace BulkyBook.Areas.Admin.Controllers
                         files[0].CopyTo(fileStreams);
                     }
 
-                    productVM.Product.ImageUrl = @"images\product\" + fileName + extention;
+                    productVM.Product.ImageUrl = @"images\products\" + fileName + extention;
                 }
                 else
                 {
@@ -107,7 +108,17 @@ namespace BulkyBook.Areas.Admin.Controllers
             }
             else
             {
-                return View(productVM.Product);
+                productVM.CategoryList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                });
+                productVM.CoverTypeList = _unitOfWork.CoverType.GetAll().Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                });
+                return View(productVM);
             }
         }
 
@@ -120,6 +131,16 @@ namespace BulkyBook.Areas.Admin.Controllers
             if (product == null)
             {
                 return Json(new { success = false, message = "Error while deleting" });
+            }
+            if (product.ImageUrl != null)
+            {
+
+                string webRootPath = _webHostEnvironment.WebRootPath;
+                var imagePath = Path.Combine(webRootPath, product.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
             }
             _unitOfWork.Product.Remove(product);
             _unitOfWork.Save();
